@@ -1,5 +1,5 @@
 {
-  "name": "notes-ui",
+  "name": "@notes/ui",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,9 +7,15 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prettify": "prettier --log-level warn --cache --write '{src/**/*,*}.{ts,tsx,js,json,yml,scss}' '!**/{node_modules,dist}/**/*'",
+    "types": "tsc --noEmit --project ./tsconfig.json && tsc --noEmit --project ./tsconfig.node.json"
   },
   "dependencies": {
+    "@notes/backend": "workspace:*",
+    "@tanstack/react-query": "^4.32.6",
+    "@trpc/client": "^10.45.2",
+    "@trpc/react-query": "^10.45.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
@@ -21,8 +27,6 @@
     "eslint": "^9.19.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.18",
-    "globals": "^15.14.0",
-    "typescript": "~5.7.2",
     "typescript-eslint": "^8.22.0",
     "vite": "^6.1.0"
   }

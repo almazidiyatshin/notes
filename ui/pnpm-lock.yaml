@@ -8,6 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@tanstack/react-query':
+        specifier: ^5.66.0
+        version: 5.66.0(react@19.0.0)
+      '@trpc/client':
+        specifier: ^10.45.2
+        version: 10.45.2(@trpc/server@10.45.2)
+      '@trpc/react-query':
+        specifier: ^10.45.2
+        version: 10.45.2(@tanstack/react-query@5.66.0(react@19.0.0))(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react:
         specifier: ^19.0.0
         version: 19.0.0
@@ -39,6 +48,9 @@ importers:
       globals:
         specifier: ^15.14.0
         version: 15.14.0
+      prettier:
+        specifier: ^3.5.0
+        version: 3.5.0
       typescript:
         specifier: ~5.7.2
         version: 5.7.3
@@ -466,6 +478,31 @@ packages:
     resolution: {integrity: sha512-0PVwmgzZ8+TZ9oGBmdZoQVXflbvuwzN/HRclujpl4N/q3i+y0lqLw8n1bXA8ru3sApDjlmONaNAuYr38y1Kr9w==}
     cpu: [x64]
     os: [win32]
+
+  '@tanstack/query-core@5.66.0':
+    resolution: {integrity: sha512-J+JeBtthiKxrpzUu7rfIPDzhscXF2p5zE/hVdrqkACBP8Yu0M96mwJ5m/8cPPYQE9aRNvXztXHlNwIh4FEeMZw==}
+
+  '@tanstack/react-query@5.66.0':
+    resolution: {integrity: sha512-z3sYixFQJe8hndFnXgWu7C79ctL+pI0KAelYyW+khaNJ1m22lWrhJU2QrsTcRKMuVPtoZvfBYrTStIdKo+x0Xw==}
+    peerDependencies:
+      react: ^18 || ^19
+
+  '@trpc/client@10.45.2':
+    resolution: {integrity: sha512-ykALM5kYWTLn1zYuUOZ2cPWlVfrXhc18HzBDyRhoPYN0jey4iQHEFSEowfnhg1RvYnrAVjNBgHNeSAXjrDbGwg==}
+    peerDependencies:
+      '@trpc/server': 10.45.2
+
+  '@trpc/react-query@10.45.2':
+    resolution: {integrity: sha512-BAqb9bGZIscroradlNx+Cc9522R+idY3BOSf5z0jHUtkxdMbjeGKxSSMxxu7JzoLqSIEC+LVzL3VvF8sdDWaZQ==}
+    peerDependencies:
+      '@tanstack/react-query': ^4.18.0
+      '@trpc/client': 10.45.2
+      '@trpc/server': 10.45.2
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+
+  '@trpc/server@10.45.2':
+    resolution: {integrity: sha512-wOrSThNNE4HUnuhJG6PfDRp4L2009KDVxsd+2VYH8ro6o/7/jwYZ8Uu5j+VaW+mOmc8EHerHzGcdbGNQSAUPgg==}
 
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -907,6 +944,11 @@ packages:
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
+
+  prettier@3.5.0:
+    resolution: {integrity: sha512-quyMrVt6svPS7CjQ9gKb3GLEX/rl3BCL2oa/QkNcXv4YNVBC9olt3s+H7ukto06q7B1Qz46PbrKLO34PR6vXcA==}
+    engines: {node: '>=14'}
+    hasBin: true
 
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
@@ -1405,6 +1447,27 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.34.6':
     optional: true
 
+  '@tanstack/query-core@5.66.0': {}
+
+  '@tanstack/react-query@5.66.0(react@19.0.0)':
+    dependencies:
+      '@tanstack/query-core': 5.66.0
+      react: 19.0.0
+
+  '@trpc/client@10.45.2(@trpc/server@10.45.2)':
+    dependencies:
+      '@trpc/server': 10.45.2
+
+  '@trpc/react-query@10.45.2(@tanstack/react-query@5.66.0(react@19.0.0))(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      '@tanstack/react-query': 5.66.0(react@19.0.0)
+      '@trpc/client': 10.45.2(@trpc/server@10.45.2)
+      '@trpc/server': 10.45.2
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+
+  '@trpc/server@10.45.2': {}
+
   '@types/babel__core@7.20.5':
     dependencies:
       '@babel/parser': 7.26.8
@@ -1884,6 +1947,8 @@ snapshots:
       source-map-js: 1.2.1
 
   prelude-ls@1.2.1: {}
+
+  prettier@3.5.0: {}
 
   punycode@2.3.1: {}
 
