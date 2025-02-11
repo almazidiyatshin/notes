@@ -5,19 +5,11 @@ export default [
   ...localConfig,
   { ignores: ["node_modules", "dist"] },
   {
-    files: ["**/*.ts", "**/*.tsx"],
+    files: ["**/*.ts"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
         project: "./tsconfig.json",
-      },
-    },
-  },
-  {
-    files: ["vite.config.ts"],
-    languageOptions: {
-      parserOptions: {
-        project: "./tsconfig.node.json",
       },
     },
   },
