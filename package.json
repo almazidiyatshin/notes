@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "b": "pnpm --filter @notes/backend",
-    "w": "pnpm --filter @notes/ui",
+    "u": "pnpm --filter @notes/ui",
     "dev": "pnpm -r --parallel dev",
-    "lint": "concurrently 'pnpm b lint' 'pnpm w lint'",
-    "lint-fix": "concurrently 'pnpm b lint --fix' 'pnpm w lint --fix'",
-    "types": "concurrently 'pnpm b types' 'pnpm w types'",
+    "lint": "concurrently 'pnpm b lint' 'pnpm u lint'",
+    "lint-fix": "concurrently 'pnpm b lint --fix' 'pnpm u lint --fix'",
+    "types": "concurrently 'pnpm b types' 'pnpm u types'",
     "prettify": "pnpm -r --parallel prettify",
     "prepare": "husky install"
   },
@@ -26,8 +26,6 @@
     "lint-staged": "^15.4.3",
     "prettier": "^3.5.0",
     "rimraf": "^6.0.1",
-    "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0",
     "typescript": "^5.7.3"
   }
 }

@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import { Segment } from "../../components/Segment";
+import { routes } from "../../lib/routes";
 import { trpc } from "../../lib/trpc";
 
 export const NotesPage = () => {
@@ -15,8 +18,7 @@ export const NotesPage = () => {
     <div>
       {data?.notes.map((note) => (
         <div key={note.id}>
-          <h2>{note.title}</h2>
-          <p>{note.text}</p>
+          <Segment title={<Link to={routes.note({ id: note.id })}>{note.title}</Link>} size={2} />
         </div>
       ))}
     </div>

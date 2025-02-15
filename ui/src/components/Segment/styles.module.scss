@@ -1,0 +1,21 @@
+@use "../../styles/mixins.scss" as *;
+@use "../../../node_modules/include-media/dist/include-media.scss" as *;
+
+.segment {
+  h1.title {
+    @include h1;
+  }
+
+  h2.title {
+    @include h2;
+  }
+
+  .description {
+    font-size: 18px;
+    margin-top: 5px;
+  }
+
+  .content {
+    margin-top: 12px;
+  }
+}
