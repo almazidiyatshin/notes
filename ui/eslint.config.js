@@ -12,6 +12,20 @@ export default [
         project: "./tsconfig.json",
       },
     },
+    rules: {
+      "@typescript-eslint/no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@notes/backend/**", "!@notes/backend/**/", "!@notes/backend/**/input"],
+              allowTypeImports: true,
+              message: "Only types and input schemas are allowed to be imported from backend workspace",
+            },
+          ],
+        },
+      ],
+    },
   },
   {
     files: ["vite.config.ts"],

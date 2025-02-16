@@ -2,5 +2,5 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 pnpm lint-staged
-pnpm w stylecheck
+pnpm u stylecheck
 pnpm types

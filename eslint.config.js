@@ -21,6 +21,7 @@ export default [
           },
         },
       ],
+      "@typescript-eslint/no-unused-vars": ["error", { vars: "all", args: "after-used", ignoreRestSiblings: true }],
       "@typescript-eslint/consistent-type-definitions": ["error", "type"],
       "@typescript-eslint/strict-boolean-expressions": "off",
       "@typescript-eslint/prefer-nullish-coalescing": "off",

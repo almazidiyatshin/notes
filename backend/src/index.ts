@@ -1,18 +1,13 @@
-import * as trpcExpress from "@trpc/server/adapters/express";
 import cors from "cors";
 import express from "express";
-import { trpcRouter } from "./trpc.js";
+import { applyTrpcToExpressApp } from "./lib/trpc.js";
+import { trpcRouter } from "./router/index.js";
 
 const app = express();
 
 app.use(cors());
 
-app.use(
-  "/trpc",
-  trpcExpress.createExpressMiddleware({
-    router: trpcRouter,
-  })
-);
+applyTrpcToExpressApp(app, trpcRouter);
 
 app.listen(3000, () => {
   console.log("Server started on http://localhost:3000");
