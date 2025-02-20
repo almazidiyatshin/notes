@@ -1,14 +1,27 @@
 import cors from "cors";
 import express from "express";
+import { CreateAppContext, TAppContext } from "./lib/ctx.js";
+import { applyPassportToExpressApp } from "./lib/passport.js";
 import { applyTrpcToExpressApp } from "./lib/trpc.js";
 import { trpcRouter } from "./router/index.js";
 
-const app = express();
+let ctx: TAppContext | null = null;
 
-app.use(cors());
+(async () => {
+  try {
+    const app = express();
+    ctx = CreateAppContext();
 
-applyTrpcToExpressApp(app, trpcRouter);
+    app.use(cors());
 
-app.listen(3000, () => {
-  console.log("Server started on http://localhost:3000");
-});
+    applyPassportToExpressApp(app, ctx);
+    await applyTrpcToExpressApp(app, ctx, trpcRouter);
+
+    app.listen(3000, () => {
+      console.log("Server started on http://localhost:3000");
+    });
+  } catch (e) {
+    await ctx?.stop();
+    console.error(e);
+  }
+})();

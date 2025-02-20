@@ -8,4 +8,7 @@ export const routes = {
   notes: () => "/",
   note: ({ id }: TNoteRouteParams) => `/notes/${id}`,
   createNote: () => "/notes/create",
+  signUp: () => "/sign-up",
+  signIn: () => "/sign-in",
+  signOut: () => "/sign-out",
 };

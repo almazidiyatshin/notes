@@ -1,3 +1,6 @@
 {
-  "eslint.workingDirectories": ["backend", "ui"]
+  "eslint.workingDirectories": ["backend", "ui"],
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 }
