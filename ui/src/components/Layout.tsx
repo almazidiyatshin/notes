@@ -1,21 +1,18 @@
 import { Link, Outlet } from "react-router-dom";
+import { useAppContext } from "../lib/ctx";
 import { routes } from "../lib/routes";
-import { trpc } from "../lib/trpc";
 
 export const Layout = () => {
-  const { data, isLoading, isFetching, isError } = trpc.getMe.useQuery();
-
-  if (isLoading || isFetching || isError) {
-    return null;
-  }
+  const { me } = useAppContext();
 
   return (
     <>
       <Link to={routes.notes()}>All notes</Link>
-      {data.me ? (
+      {me ? (
         <>
           <Link to={routes.createNote()}>Create note</Link>
-          <Link to={routes.signOut()}>Sign out</Link>
+          <Link to={routes.signOut()}>{`Sign out (${me.login})`}</Link>
+          <Link to={routes.updateProfile()}>Update profile</Link>
         </>
       ) : (
         <>

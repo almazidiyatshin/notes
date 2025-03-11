@@ -1,5 +1,11 @@
-type TProps = { color: "success" | "error"; children: React.ReactNode };
-
 import styles from "./styles.module.scss";
 
-export const Alert = ({ color, children }: TProps) => <div className={styles[color]}>{children}</div>;
+export type TAlertProps = { color: "success" | "error"; hidden?: boolean; children: React.ReactNode };
+
+export const Alert = ({ color, hidden, children }: TAlertProps) => {
+  if (hidden) {
+    return null;
+  }
+
+  return <div className={styles[color]}>{children}</div>;
+};

@@ -2,6 +2,7 @@ import { type Express } from "express";
 import { Passport } from "passport";
 import { ExtractJwt, Strategy as JWTStrategy } from "passport-jwt";
 import { type TAppContext } from "./ctx.js";
+import { env } from "./env.js";
 
 export const applyPassportToExpressApp = (expressApp: Express, ctx: TAppContext): void => {
   const passport = new Passport();
@@ -9,7 +10,7 @@ export const applyPassportToExpressApp = (expressApp: Express, ctx: TAppContext)
   passport.use(
     new JWTStrategy(
       {
-        secretOrKey: "not-really-secret-jwt-key",
+        secretOrKey: env.JWT_SECRET,
         jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("Bearer"),
       },
       (jwtPayload: string, done) => {
@@ -36,6 +37,9 @@ export const applyPassportToExpressApp = (expressApp: Express, ctx: TAppContext)
       next();
       return;
     }
-    passport.authenticate("jwt", { session: false })(req, res, next);
+    passport.authenticate("jwt", { session: false }, (...args: any[]) => {
+      req.user = args[1] || undefined;
+      next();
+    })(req, res, next);
   });
 };

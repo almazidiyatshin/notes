@@ -10,13 +10,18 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   login     String   @unique
+  name      String   @default("")
   password  String
   createdAt DateTime @default(now())
+  notes     Note[]
 }
 
 model Note {
-  id        String   @id @default(uuid())
-  title     String
-  text      String
-  createdAt DateTime @default(now())
+  id           String   @id @default(uuid())
+  serialNumber Int      @unique @default(autoincrement())
+  title        String
+  text         String
+  createdAt    DateTime @default(now())
+  authorId     String
+  author       User     @relation(fields: [authorId], references: [id])
 }
