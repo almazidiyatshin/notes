@@ -4,6 +4,11 @@
     "transpileOnly": true
   },
   "compilerOptions": {
+    "plugins": [{ "transform": "typescript-transform-paths" }],
+    "paths": {
+      "@notes/ui/*": ["../ui/*"],
+      "@notes/shared/*": ["../shared/*"]
+    },
     "outDir": "./dist",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,

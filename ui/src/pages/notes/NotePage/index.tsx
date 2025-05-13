@@ -1,3 +1,4 @@
+import { canEditNote } from "@notes/backend/src/utils/permissions";
 import { format } from "date-fns/format";
 import { useParams } from "react-router-dom";
 import { LinkButton } from "../../../components/Button/Button";
@@ -18,6 +19,7 @@ export const NotePage = withPageWrapper({
       me: ctx.me,
     };
   },
+  title: ({ note }) => `${note.title}`,
 })(({ note, me }) => {
   return (
     <div>
@@ -29,7 +31,12 @@ export const NotePage = withPageWrapper({
       </p>
       <Segment title={note.title} description={note.text} size={2} />
 
-      {me?.id === note.authorId && <LinkButton to={routes.updateNote({ id: note.id })}>Edit</LinkButton>}
+      {canEditNote(me, note) && (
+        <>
+          <LinkButton to={routes.updateNote({ id: note.id })}>Edit</LinkButton>
+          <LinkButton to={routes.deleteNote({ id: note.id })}>Delete</LinkButton>
+        </>
+      )}
     </div>
   );
 });

@@ -1,11 +1,13 @@
-import importPlugin from "eslint-plugin-import";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
+import importPlugin from "eslint-plugin-import";
+import unusedImports from "eslint-plugin-unused-imports";
 
 export default [
   {
     plugins: {
       import: importPlugin,
       "@typescript-eslint": tsPlugin,
+      "unused-imports": unusedImports,
     },
 
     ignores: ["node_modules", "dist"],
@@ -14,6 +16,7 @@ export default [
       "import/order": [
         "error",
         {
+          groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
           alphabetize: {
             order: "asc",
             caseInsensitive: false,
@@ -21,6 +24,7 @@ export default [
           },
         },
       ],
+      "unused-imports/no-unused-imports": "error",
       "@typescript-eslint/no-unused-vars": ["error", { vars: "all", args: "after-used", ignoreRestSiblings: true }],
       "@typescript-eslint/consistent-type-definitions": ["error", "type"],
       "@typescript-eslint/strict-boolean-expressions": "off",

@@ -1,4 +1,5 @@
 import { zSignUpTrpcInput } from "@notes/backend/src/router/auth/signUp/input";
+import { zStringRequired } from "@notes/shared/src/zod";
 import Cookies from "js-cookie";
 import { z } from "zod";
 import { Alert } from "../../../components/Alert";
@@ -9,28 +10,26 @@ import { useForm } from "../../../hooks/useForm";
 import { trpc } from "../../../lib/trpc";
 import { withPageWrapper } from "../../../lib/withPageWrapper";
 
-export const SignUpPage = withPageWrapper({ redirectAuthorized: true })(() => {
+export const SignUpPage = withPageWrapper({ redirectAuthorized: true, title: "Sign up" })(() => {
   const signUp = trpc.signUp.useMutation();
   const trpcUtils = trpc.useUtils();
 
   const { formik, alertProps, buttonProps } = useForm({
-    initialValues: { login: "", password: "", passwordAgain: "" },
+    initialValues: { login: "", password: "", passwordAgain: "", email: "" },
     onSubmit: async (values) => {
       const { token } = await signUp.mutateAsync(values);
       Cookies.set("token", token, { expires: 999999 });
       trpcUtils.invalidate();
     },
-    validationSchema: zSignUpTrpcInput
-      .extend({ passwordAgain: z.string().min(1, "Repeat password!") })
-      .superRefine((val, ctx) => {
-        if (val.password !== val.passwordAgain) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "Passwords must be the same",
-            path: ["passwordAgain"],
-          });
-        }
-      }),
+    validationSchema: zSignUpTrpcInput.extend({ passwordAgain: zStringRequired }).superRefine((val, ctx) => {
+      if (val.password !== val.passwordAgain) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Passwords must be the same",
+          path: ["passwordAgain"],
+        });
+      }
+    }),
   });
 
   return (
@@ -42,6 +41,7 @@ export const SignUpPage = withPageWrapper({ redirectAuthorized: true })(() => {
         }}
       >
         <Input name="login" label="Login" formik={formik} />
+        <Input name="email" label="Email" formik={formik} />
         <Input name="password" label="Password" formik={formik} type="password" />
         <Input name="passwordAgain" label="Password again" formik={formik} type="password" />
         <Alert {...alertProps} />

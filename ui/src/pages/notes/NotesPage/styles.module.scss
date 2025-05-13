@@ -1,0 +1,10 @@
+.notes {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.note {
+  border: 1px solid;
+  padding: 16px;
+}

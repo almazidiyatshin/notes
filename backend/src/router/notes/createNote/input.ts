@@ -1,6 +1,7 @@
+import { zStringMin, zStringRequired } from "@notes/shared/src/zod.js";
 import { z } from "zod";
 
 export const zCreateNoteTrpcInput = z.object({
-  title: z.string().min(1, "Title is required!"),
-  text: z.string().min(1, "Text is required!"),
+  title: zStringRequired,
+  text: zStringMin(3),
 });

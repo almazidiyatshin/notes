@@ -1,7 +1,7 @@
 import { type TTrpcRouterOutput } from "@notes/backend/src/router";
 import { zUpdatePasswordTrpcInput } from "@notes/backend/src/router/auth/updatePassword/input";
 import { zUpdateProfileTrpcInput } from "@notes/backend/src/router/auth/updateProfile/input";
-import { z } from "zod";
+import { zPasswordsMustBeTheSame, zStringRequired } from "@notes/shared/src/zod";
 import { Alert } from "../../../components/Alert";
 import { Button } from "../../../components/Button";
 import { Input } from "../../../components/Input";
@@ -17,6 +17,7 @@ const General = ({ me }: { me: NonNullable<TTrpcRouterOutput["getMe"]["me"]> }) 
     initialValues: {
       login: me.login,
       name: me.name,
+      email: me.email,
     },
     validationSchema: zUpdateProfileTrpcInput,
     onSubmit: async (values) => {
@@ -31,6 +32,7 @@ const General = ({ me }: { me: NonNullable<TTrpcRouterOutput["getMe"]["me"]> }) 
     <form onSubmit={formik.handleSubmit}>
       <Input label="Login" name="login" formik={formik} />
       <Input label="Name" name="name" formik={formik} />
+      <Input label="Email" name="email" formik={formik} />
       <Alert {...alertProps} />
       <Button {...buttonProps}>Update Profile</Button>
     </form>
@@ -47,17 +49,9 @@ const Password = () => {
     },
     validationSchema: zUpdatePasswordTrpcInput
       .extend({
-        newPasswordAgain: z.string().min(1),
+        newPasswordAgain: zStringRequired,
       })
-      .superRefine((val, ctx) => {
-        if (val.newPassword !== val.newPasswordAgain) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "Passwords must be the same",
-            path: ["newPasswordAgain"],
-          });
-        }
-      }),
+      .superRefine(zPasswordsMustBeTheSame("newPassword", "newPasswordAgain")),
     onSubmit: async ({ newPassword, oldPassword }) => {
       await updatePassword.mutateAsync({ newPassword, oldPassword });
     },
@@ -80,6 +74,7 @@ export const UpdateProfilePage = withPageWrapper({
   setProps: ({ getAuthorizedMe }) => ({
     me: getAuthorizedMe(),
   }),
+  title: "Update profile",
 })(({ me }) => {
   return (
     <Segment title="Update profile" size={1}>

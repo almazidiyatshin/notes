@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { zStringRequired } from "@notes/shared/src/zod.js";
 import { zCreateNoteTrpcInput } from "../createNote/input.js";
 
 export const zUpdateNoteTrpcInput = zCreateNoteTrpcInput.extend({
-  id: z.string().min(1, "Id is required!"),
+  id: zStringRequired,
 });

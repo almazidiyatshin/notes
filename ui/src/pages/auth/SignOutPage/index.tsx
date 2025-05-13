@@ -5,7 +5,7 @@ import { routes } from "../../../lib/routes";
 import { trpc } from "../../../lib/trpc";
 import { withPageWrapper } from "../../../lib/withPageWrapper";
 
-export const SignOutPage = withPageWrapper({ authorizedOnly: true })(() => {
+export const SignOutPage = withPageWrapper({ authorizedOnly: true, title: "Sign out" })(() => {
   const navigate = useNavigate();
   const trpcUtils = trpc.useUtils();
 

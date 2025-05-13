@@ -18,7 +18,12 @@ export default [
         {
           patterns: [
             {
-              group: ["@notes/backend/**", "!@notes/backend/**/", "!@notes/backend/**/input"],
+              group: [
+                "@notes/backend/**",
+                "!@notes/backend/**/",
+                "!@notes/backend/**/input",
+                "!@notes/backend/src/utils/permissions",
+              ],
               allowTypeImports: true,
               message: "Only types and input schemas are allowed to be imported from backend workspace",
             },

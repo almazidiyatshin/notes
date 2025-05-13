@@ -6,10 +6,11 @@
   "scripts": {
     "b": "pnpm --filter @notes/backend",
     "u": "pnpm --filter @notes/ui",
+    "sh": "pnpm --filter @notes/shared",
     "dev": "pnpm -r --parallel dev",
-    "lint": "concurrently 'pnpm b lint' 'pnpm u lint'",
-    "lint-fix": "concurrently 'pnpm b lint --fix' 'pnpm u lint --fix'",
-    "types": "concurrently 'pnpm b types' 'pnpm u types'",
+    "lint": "concurrently 'pnpm b lint' 'pnpm u lint' 'pnpm sh lint'",
+    "lint-fix": "concurrently 'pnpm b lint --fix' 'pnpm u lint --fix' 'pnpm sh lint --fix'",
+    "types": "concurrently 'pnpm b types' 'pnpm u types' 'pnpm sh types'",
     "prettify": "pnpm -r --parallel prettify",
     "prepare": "husky install"
   },
@@ -17,15 +18,19 @@
     "@typescript-eslint/eslint-plugin": "^8.24.0",
     "@typescript-eslint/parser": "^8.24.0",
     "concurrently": "^9.1.2",
+    "copyfiles": "^2.4.1",
     "eslint": "^9.20.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-config-react-app": "^7.0.1",
     "eslint-config-standard-with-typescript": "^43.0.1",
     "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "husky": "^8.0.0",
     "lint-staged": "^15.4.3",
     "prettier": "^3.5.0",
     "rimraf": "^6.0.1",
-    "typescript": "^5.7.3"
+    "ts-patch": "^3.3.0",
+    "typescript": "^5.7.3",
+    "typescript-transform-paths": "^3.5.5"
   }
 }

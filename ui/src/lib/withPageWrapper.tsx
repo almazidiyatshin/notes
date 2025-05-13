@@ -1,5 +1,6 @@
 import { type UseTRPCQueryResult, type UseTRPCQuerySuccessResult } from "@trpc/react-query/shared";
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { Error as PageError } from "../components/Error";
 import { NotFoundPage } from "../pages/other/NotFoundPage";
@@ -57,6 +58,9 @@ type TPageWrapperProps<TProps extends Props, TQueryResult extends QueryResult | 
 
   useQuery?: () => TQueryResult;
   setProps?: (setPropsProps: TSetPropsProps<TQueryResult>) => TProps;
+
+  title: string | ((titleProps: THelperProps<TQueryResult> & TProps) => string);
+
   Page: React.FC<TProps>;
 };
 
@@ -73,6 +77,7 @@ const PageWrapper = <TProps extends Props = {}, TQueryResult extends QueryResult
   checkExistsMessage,
   useQuery,
   setProps,
+  title,
   Page,
 }: TPageWrapperProps<TProps, TQueryResult>) => {
   const navigate = useNavigate();
@@ -129,7 +134,15 @@ const PageWrapper = <TProps extends Props = {}, TQueryResult extends QueryResult
       checkAccess: checkAccessFn,
       getAuthorizedMe,
     }) as TProps;
-    return <Page {...props} />;
+    const normilizedTitle = typeof title === "function" ? title({ ...helperProps, ...props }) : title;
+    return (
+      <>
+        <Helmet>
+          <title>{normilizedTitle}</title>
+        </Helmet>
+        <Page {...props} />
+      </>
+    );
   } catch (error) {
     if (error instanceof CheckExistsError) {
       return <NotFoundPage title={checkExistsTitle} message={error.message || checkExistsMessage} />;

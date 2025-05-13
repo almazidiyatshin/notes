@@ -1,7 +1,10 @@
+import { zEnvNonemptyTrimmed } from "@notes/shared/src/zod";
 import { z } from "zod";
 
 export const zEnv = z.object({
-  VITE_BACKEND_TRPC_URL: z.string().trim().min(1),
+  NODE_ENV: z.enum(["development", "production"]),
+  VITE_BACKEND_TRPC_URL: zEnvNonemptyTrimmed,
+  VITE_UI_URL: zEnvNonemptyTrimmed,
 });
 
-export const env = zEnv.parse(import.meta.env);
+export const env = zEnv.parse(process.env);

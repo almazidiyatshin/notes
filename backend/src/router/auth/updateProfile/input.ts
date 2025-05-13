@@ -1,9 +1,8 @@
+import { zEmailRequired, zLoginRequired } from "@notes/shared/src/zod.js";
 import { z } from "zod";
 
 export const zUpdateProfileTrpcInput = z.object({
-  login: z
-    .string()
-    .min(1, "Login is required!")
-    .regex(/^[a-z0-9-]+$/, "Login may contain only lowercase letters, numbers and dashes"),
+  login: zLoginRequired,
   name: z.string().max(50).default(""),
+  email: zEmailRequired,
 });

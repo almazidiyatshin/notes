@@ -8,7 +8,7 @@ import { useForm } from "../../../hooks/useForm";
 import { trpc } from "../../../lib/trpc";
 import { withPageWrapper } from "../../../lib/withPageWrapper";
 
-export const CreateNotePage = withPageWrapper({ authorizedOnly: true })(() => {
+export const CreateNotePage = withPageWrapper({ authorizedOnly: true, title: "New note" })(() => {
   const createNote = trpc.createNote.useMutation();
 
   const { formik, alertProps, buttonProps } = useForm({

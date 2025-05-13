@@ -1,26 +1,38 @@
 import { toClientMe } from "../../../lib/models.js";
-import { trpc } from "../../../lib/trpc.js";
+import { trpcLoggedProcedure } from "../../../lib/trpc.js";
 import { zUpdateProfileTrpcInput } from "./input.js";
 
-export const updateProfileTrpcRoute = trpc.procedure.input(zUpdateProfileTrpcInput).mutation(async ({ ctx, input }) => {
-  if (!ctx.me) {
-    throw new Error("UNAUTHORIZED");
-  }
-
-  if (ctx.me.login !== input.login) {
-    const exUser = await ctx.prisma.user.findUnique({
-      where: {
-        login: input.login,
-      },
-    });
-
-    if (exUser) {
-      throw new Error("User with this login already exists");
+export const updateProfileTrpcRoute = trpcLoggedProcedure
+  .input(zUpdateProfileTrpcInput)
+  .mutation(async ({ ctx, input }) => {
+    if (!ctx.me) {
+      throw new Error("UNAUTHORIZED");
     }
-  }
 
-  const updatedUser = await ctx.prisma.user.update({ where: { id: ctx.me.id }, data: input });
-  ctx.me = updatedUser;
+    if (ctx.me.login !== input.login) {
+      const exUserByLogin = await ctx.prisma.user.findUnique({
+        where: {
+          login: input.login,
+        },
+      });
 
-  return toClientMe(updatedUser);
-});
+      if (exUserByLogin) {
+        throw new Error("User with this login already exists");
+      }
+
+      const exUserByEmail = await ctx.prisma.user.findUnique({
+        where: {
+          email: input.email,
+        },
+      });
+
+      if (exUserByEmail) {
+        throw new Error("User with this email already exists");
+      }
+    }
+
+    const updatedUser = await ctx.prisma.user.update({ where: { id: ctx.me.id }, data: input });
+    ctx.me = updatedUser;
+
+    return toClientMe(updatedUser);
+  });

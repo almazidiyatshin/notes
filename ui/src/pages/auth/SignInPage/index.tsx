@@ -8,7 +8,7 @@ import { useForm } from "../../../hooks/useForm";
 import { trpc } from "../../../lib/trpc";
 import { withPageWrapper } from "../../../lib/withPageWrapper";
 
-export const SignInPage = withPageWrapper({ redirectAuthorized: true })(() => {
+export const SignInPage = withPageWrapper({ redirectAuthorized: true, title: "Sign in" })(() => {
   const signIn = trpc.signIn.useMutation();
   const trpcUtils = trpc.useUtils();
 

@@ -1,12 +1,18 @@
+import { createRef } from "react";
 import { Link, Outlet } from "react-router-dom";
-import { useAppContext } from "../lib/ctx";
-import { routes } from "../lib/routes";
+import NotesIcon from "../../assets/notes.svg?react";
+import { useAppContext } from "../../lib/ctx";
+import { routes } from "../../lib/routes";
+import styles from "./styles.module.scss";
+
+export const layoutContentElRef = createRef<HTMLDivElement>();
 
 export const Layout = () => {
   const { me } = useAppContext();
 
   return (
     <>
+      <NotesIcon className={styles.logo} />
       <Link to={routes.notes()}>All notes</Link>
       {me ? (
         <>
@@ -21,7 +27,9 @@ export const Layout = () => {
         </>
       )}
       <hr />
-      <Outlet />
+      <div ref={layoutContentElRef}>
+        <Outlet />
+      </div>
     </>
   );
 };

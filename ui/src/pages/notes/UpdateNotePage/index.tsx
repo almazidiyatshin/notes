@@ -1,5 +1,6 @@
 import { type TTrpcRouterOutput } from "@notes/backend/src/router";
 import { zUpdateNoteTrpcInput } from "@notes/backend/src/router/notes/updateNote/input";
+import { canEditNote } from "@notes/backend/src/utils/permissions";
 import { useNavigate, useParams } from "react-router-dom";
 import { Alert } from "../../../components/Alert";
 import { Button } from "../../../components/Button";
@@ -23,11 +24,12 @@ export const UpdateNotePage = withPageWrapper({
   },
   setProps: ({ queryResult, ctx, checkExists, checkAccess }) => {
     const note = checkExists(queryResult.data.note, "Note has not found");
-    checkAccess(ctx.me?.id === note.authorId, "An note can only be edited by the author");
+    checkAccess(canEditNote(ctx.me, note), "An note can only be edited by the author");
     return {
       note,
     };
   },
+  title: ({ note }) => `Edit note: ${note.title}`,
 })(({ note }: TProps) => {
   const navigate = useNavigate();
   const updateNote = trpc.updateNote.useMutation();

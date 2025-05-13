@@ -1,7 +1,8 @@
-import { trpc } from "../../../lib/trpc.js";
+import { trpcLoggedProcedure } from "../../../lib/trpc.js";
+import { canEditNote } from "../../../utils/permissions.js";
 import { zUpdateNoteTrpcInput } from "./input.js";
 
-export const updateNoteTrpcRoute = trpc.procedure.input(zUpdateNoteTrpcInput).mutation(async ({ ctx, input }) => {
+export const updateNoteTrpcRoute = trpcLoggedProcedure.input(zUpdateNoteTrpcInput).mutation(async ({ ctx, input }) => {
   const { id, ...noteData } = input;
 
   if (!ctx.me) {
@@ -13,10 +14,10 @@ export const updateNoteTrpcRoute = trpc.procedure.input(zUpdateNoteTrpcInput).mu
   });
 
   if (!exNote) {
-    throw new Error("NOTE_FOUND");
+    throw new Error("NOT_FOUND");
   }
 
-  if (exNote.authorId !== ctx.me.id) {
+  if (!canEditNote(ctx.me, exNote)) {
     throw new Error("NOT_YOUR_NOTE");
   }
 
