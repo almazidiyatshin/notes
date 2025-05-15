@@ -1,3 +1,4 @@
+import { ExpectedError } from "../../../lib/error.js";
 import { toClientMe } from "../../../lib/models.js";
 import { trpcLoggedProcedure } from "../../../lib/trpc.js";
 import { zUpdateProfileTrpcInput } from "./input.js";
@@ -17,7 +18,7 @@ export const updateProfileTrpcRoute = trpcLoggedProcedure
       });
 
       if (exUserByLogin) {
-        throw new Error("User with this login already exists");
+        throw new ExpectedError("User with this login already exists");
       }
 
       const exUserByEmail = await ctx.prisma.user.findUnique({
@@ -27,7 +28,7 @@ export const updateProfileTrpcRoute = trpcLoggedProcedure
       });
 
       if (exUserByEmail) {
-        throw new Error("User with this email already exists");
+        throw new ExpectedError("User with this email already exists");
       }
     }
 

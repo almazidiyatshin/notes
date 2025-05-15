@@ -10,6 +10,9 @@
     "watch-emails": "mjml -w ./src/emails/[!_]*.mjml -o ./src/emails/dist",
     "copy-emails": "copyfiles ./src/emails/dist/*.html ./dist/backend",
     "build": "pnpm build-ts && pnpm build-emails && pnpm copy-emails",
+    "sentry-release": "dotenv -- bash -c 'sentry-cli releases new ${SOURCE_VERSION} --finalize --org papely --project backend --auth-token ${SENTRY_AUTH_TOKEN}'",
+    "sentry-sourcemaps": "dotenv -- bash -c 'sentry-cli releases files ${SOURCE_VERSION} upload-sourcemaps ./dist --org papely --project backend'",
+    "sentry": "pnpm sentry-release && pnpm sentry-sourcemaps",
     "start": "node ./dist/backend/src/index.js",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache",
     "lint-fix": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --fix",
@@ -23,6 +26,7 @@
     "schema": "./src/prisma/schema.prisma"
   },
   "devDependencies": {
+    "@sentry/cli": "^2.45.0",
     "@types/cors": "^2.8.17",
     "@types/cron": "^2.4.3",
     "@types/debug": "^4.1.12",
@@ -33,6 +37,7 @@
     "@types/passport": "^1.0.17",
     "@types/passport-jwt": "^4.0.1",
     "@types/triple-beam": "^1.3.5",
+    "dotenv-cli": "^8.0.0",
     "prisma": "^6.5.0",
     "tsx": "^4.19.2"
   },
@@ -40,6 +45,8 @@
     "@notes/shared": "workspace:*",
     "@notes/ui": "workspace:*",
     "@prisma/client": "^6.5.0",
+    "@sentry/integrations": "^7.114.0",
+    "@sentry/node": "^7.114.0",
     "@trpc/server": "^10.45.2",
     "axios": "^1.8.4",
     "cors": "^2.8.5",
@@ -55,6 +62,7 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "picocolors": "^1.1.1",
+    "react-router-dom": "^7.1.5",
     "serialize-error": "^12.0.0",
     "superjson": "^2.2.2",
     "triple-beam": "^1.4.1",

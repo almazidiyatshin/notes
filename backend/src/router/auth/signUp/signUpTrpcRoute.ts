@@ -1,5 +1,6 @@
 import { EUserPermission } from "@prisma/client";
 import { sendWelcomeEmail } from "../../../lib/emails.js";
+import { ExpectedError } from "../../../lib/error.js";
 import { trpcLoggedProcedure } from "../../../lib/trpc.js";
 import { getHashPassword } from "../../../utils/getHashPassword.js";
 import { signJWT } from "../../../utils/signJWT.js";
@@ -9,13 +10,13 @@ export const signUpTrpcRoute = trpcLoggedProcedure.input(zSignUpTrpcInput).mutat
   const exUserByLogin = await ctx.prisma.user.findFirst({ where: { login: input.login } });
 
   if (exUserByLogin) {
-    throw new Error("User already exists");
+    throw new ExpectedError("User already exists");
   }
 
   const exUserByEmail = await ctx.prisma.user.findFirst({ where: { email: input.email } });
 
   if (exUserByEmail) {
-    throw new Error("User already exists");
+    throw new ExpectedError("User already exists");
   }
 
   const user = await ctx.prisma.user.create({

@@ -15,6 +15,8 @@ const zEnv = z.object({
   FROM_EMAIL_ADDRESS: zEnvNonemptyTrimmed,
   UI_URL: zEnvNonemptyTrimmed,
   DEBUG: zEnvNonemptyTrimmed,
+  BACKEND_SENTRY_DSN: zEnvNonemptyTrimmedRequiredOnNotLocal,
+  SOURCE_VERSION: zEnvNonemptyTrimmedRequiredOnNotLocal,
 });
 
 export const env = zEnv.parse(process.env);

@@ -1,3 +1,4 @@
+import { ExpectedError } from "../../../lib/error.js";
 import { trpcLoggedProcedure } from "../../../lib/trpc.js";
 import { getHashPassword } from "../../../utils/getHashPassword.js";
 import { signJWT } from "../../../utils/signJWT.js";
@@ -9,7 +10,7 @@ export const signInTrpcRoute = trpcLoggedProcedure.input(zSignInTrpcInput).mutat
   });
 
   if (!user) {
-    throw new Error("Wrong login or password");
+    throw new ExpectedError("Wrong login or password");
   }
 
   const token = signJWT(user.id);

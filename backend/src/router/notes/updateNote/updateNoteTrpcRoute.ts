@@ -1,3 +1,4 @@
+import { ExpectedError } from "../../../lib/error.js";
 import { trpcLoggedProcedure } from "../../../lib/trpc.js";
 import { canEditNote } from "../../../utils/permissions.js";
 import { zUpdateNoteTrpcInput } from "./input.js";
@@ -14,11 +15,11 @@ export const updateNoteTrpcRoute = trpcLoggedProcedure.input(zUpdateNoteTrpcInpu
   });
 
   if (!exNote) {
-    throw new Error("NOT_FOUND");
+    throw new ExpectedError("NOT_FOUND");
   }
 
   if (!canEditNote(ctx.me, exNote)) {
-    throw new Error("NOT_YOUR_NOTE");
+    throw new ExpectedError("NOT_YOUR_NOTE");
   }
 
   const note = await ctx.prisma.note.update({ where: { id }, data: noteData });

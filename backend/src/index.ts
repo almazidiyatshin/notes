@@ -33,6 +33,7 @@ let ctx: TAppContext | null = null;
     app.listen(env.PORT, () => {
       logger.info("express", `Server started on http://localhost:${env.PORT}`);
     });
+    throw new Error("ERR2");
   } catch (e) {
     await ctx?.stop();
     logger.error("app", e);

@@ -3,7 +3,7 @@ import localConfig from "../eslint.config.js";
 
 export default [
   ...localConfig,
-  { ignores: ["node_modules", "dist"] },
+  { ignores: ["node_modules", "dist", "vite.config.d.ts"] },
   {
     files: ["**/*.ts", "**/*.tsx"],
     languageOptions: {

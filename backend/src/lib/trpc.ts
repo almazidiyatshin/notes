@@ -6,6 +6,7 @@ import { expressHandler } from "trpc-playground/handlers/express";
 import { TTrpcRouter } from "../router/index.js";
 import { TExpressRequest } from "../types/trpc.js";
 import { TAppContext } from "./ctx.js";
+import { ExpectedError } from "./error.js";
 import { logger } from "./logger.js";
 
 const getCreateTrpcContext =
@@ -19,6 +20,16 @@ type TTrpcContext = inferAsyncReturnType<ReturnType<typeof getCreateTrpcContext>
 
 const trpc = initTRPC.context<TTrpcContext>().create({
   transformer: SuperJSON,
+  errorFormatter: ({ shape, error }) => {
+    const isExpected = error.cause instanceof ExpectedError;
+    return {
+      ...shape,
+      data: {
+        ...shape.data,
+        isExpected,
+      },
+    };
+  },
 });
 
 export const createTrpcRouter = trpc.router;
